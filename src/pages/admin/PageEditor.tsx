@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -36,6 +35,37 @@ type DbPage = Database['public']['Tables']['pages']['Row'];
 type DbPageInsert = Database['public']['Tables']['pages']['Insert'];
 type DbPageUpdate = Database['public']['Tables']['pages']['Update'];
 
+// Helper function to safely convert database content to our Page format
+const convertDbPageToPage = (dbPage: DbPage): Page => {
+  let content: { sections: Section[] } = { sections: [] };
+  
+  if (dbPage.content) {
+    try {
+      // Handle the case where content might be a string (JSON) or already parsed object
+      const parsedContent = typeof dbPage.content === 'string' 
+        ? JSON.parse(dbPage.content) 
+        : dbPage.content;
+      
+      // Check if it has the expected structure
+      if (parsedContent && typeof parsedContent === 'object' && 'sections' in parsedContent) {
+        content = parsedContent as { sections: Section[] };
+      }
+    } catch (error) {
+      console.warn('Failed to parse page content:', error);
+      // Fall back to empty sections if parsing fails
+    }
+  }
+  
+  return {
+    id: dbPage.id,
+    slug: dbPage.slug,
+    title: dbPage.title,
+    meta_description: dbPage.meta_description || '',
+    content,
+    status: dbPage.status || 'draft'
+  };
+};
+
 const PageEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -67,19 +97,8 @@ const PageEditor = () => {
 
       if (error) throw error;
       
-      // Convert database format to our internal format
-      const dbPage = data as DbPage;
-      const convertedPage: Page = {
-        id: dbPage.id,
-        slug: dbPage.slug,
-        title: dbPage.title,
-        meta_description: dbPage.meta_description || '',
-        content: dbPage.content && typeof dbPage.content === 'object' && 'sections' in dbPage.content
-          ? dbPage.content as { sections: Section[] }
-          : { sections: [] },
-        status: dbPage.status || 'draft'
-      };
-      
+      // Convert database format to our internal format using the helper function
+      const convertedPage = convertDbPageToPage(data as DbPage);
       setPage(convertedPage);
     } catch (error) {
       console.error('Error fetching page:', error);
