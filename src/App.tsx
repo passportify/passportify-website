@@ -18,6 +18,11 @@ import TermsOfService from "./pages/TermsOfService";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/admin/Dashboard";
 import PagesManager from "./pages/admin/PagesManager";
+import PageEditor from "./pages/admin/PageEditor";
+import BlogManager from "./pages/admin/BlogManager";
+import BlogEditor from "./pages/admin/BlogEditor";
+import CaseStudiesManager from "./pages/admin/CaseStudiesManager";
+import ContactsManager from "./pages/admin/ContactsManager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +51,11 @@ const App = () => (
           {/* Admin routes */}
           <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path="/admin/pages" element={<AdminLayout><PagesManager /></AdminLayout>} />
+          <Route path="/admin/pages/:id" element={<AdminLayout><PageEditor /></AdminLayout>} />
+          <Route path="/admin/blog" element={<AdminLayout><BlogManager /></AdminLayout>} />
+          <Route path="/admin/blog/:id" element={<AdminLayout><BlogEditor /></AdminLayout>} />
+          <Route path="/admin/case-studies" element={<AdminLayout><CaseStudiesManager /></AdminLayout>} />
+          <Route path="/admin/contacts" element={<AdminLayout><ContactsManager /></AdminLayout>} />
           
           {/* 404 route */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />

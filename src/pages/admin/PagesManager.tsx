@@ -114,7 +114,7 @@ const PagesManager = () => {
                       <Eye className="w-4 h-4" />
                     </Button>
                   </Link>
-                  <Link to={`/admin/pages/edit/${page.id}`}>
+                  <Link to={`/admin/pages/${page.id}`}>
                     <Button variant="outline" size="sm">
                       <Edit className="w-4 h-4" />
                     </Button>
