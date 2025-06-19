@@ -147,7 +147,7 @@ const HowItWorks = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">< 24h</div>
+                  <div className="text-3xl font-bold text-primary">&lt; 24h</div>
                   <div className="text-sm text-muted-foreground">Average Setup Time</div>
                 </div>
                 <div className="text-center">
