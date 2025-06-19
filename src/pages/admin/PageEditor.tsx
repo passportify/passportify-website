@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Save, Plus, Edit, Trash, ArrowUp, ArrowDown, Eye } from 'lucide-react';
+import type { Database } from '@/integrations/supabase/types';
 
 interface Section {
   id: string;
@@ -30,6 +31,10 @@ interface Page {
   };
   status: string;
 }
+
+type DbPage = Database['public']['Tables']['pages']['Row'];
+type DbPageInsert = Database['public']['Tables']['pages']['Insert'];
+type DbPageUpdate = Database['public']['Tables']['pages']['Update'];
 
 const PageEditor = () => {
   const { id } = useParams();
@@ -61,7 +66,21 @@ const PageEditor = () => {
         .single();
 
       if (error) throw error;
-      setPage(data);
+      
+      // Convert database format to our internal format
+      const dbPage = data as DbPage;
+      const convertedPage: Page = {
+        id: dbPage.id,
+        slug: dbPage.slug,
+        title: dbPage.title,
+        meta_description: dbPage.meta_description || '',
+        content: dbPage.content && typeof dbPage.content === 'object' && 'sections' in dbPage.content
+          ? dbPage.content as { sections: Section[] }
+          : { sections: [] },
+        status: dbPage.status || 'draft'
+      };
+      
+      setPage(convertedPage);
     } catch (error) {
       console.error('Error fetching page:', error);
       toast({
@@ -75,11 +94,12 @@ const PageEditor = () => {
   const savePage = async () => {
     setLoading(true);
     try {
-      const pageData = {
+      // Convert our internal format to database format
+      const pageData: DbPageInsert | DbPageUpdate = {
         slug: page.slug,
         title: page.title,
         meta_description: page.meta_description,
-        content: page.content,
+        content: page.content as any, // Cast to Json type
         status: page.status,
         updated_at: new Date().toISOString()
       };
@@ -87,7 +107,7 @@ const PageEditor = () => {
       if (id === 'new') {
         const { error } = await supabase
           .from('pages')
-          .insert(pageData);
+          .insert(pageData as DbPageInsert);
         if (error) throw error;
         toast({
           title: "Success",
@@ -97,7 +117,7 @@ const PageEditor = () => {
       } else {
         const { error } = await supabase
           .from('pages')
-          .update(pageData)
+          .update(pageData as DbPageUpdate)
           .eq('id', id);
         if (error) throw error;
         toast({
