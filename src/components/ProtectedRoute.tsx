@@ -11,6 +11,8 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
   const { user, loading, isAdmin } = useAuth();
 
+  console.log('ProtectedRoute check:', { user: user?.email, loading, isAdmin, requireAdmin });
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -23,10 +25,12 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
   }
 
   if (!user) {
+    console.log('No user found, redirecting to auth');
     return <Navigate to="/auth" replace />;
   }
 
   if (requireAdmin && !isAdmin) {
+    console.log('Admin required but user is not admin:', { isAdmin });
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -38,6 +42,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
     );
   }
 
+  console.log('Access granted');
   return <>{children}</>;
 };
 
