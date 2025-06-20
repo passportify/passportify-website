@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -30,9 +29,9 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
   }
 
   if (requireAdmin && !isAdmin) {
-  console.log('Admin required but user is not admin:', { isAdmin });
-  return <Navigate to="/" replace />;
-}
+    console.log('Admin required but user is not admin:', { isAdmin });
+    return <Navigate to="/" replace />;
+  }
 
   console.log('Access granted');
   return <>{children}</>;
