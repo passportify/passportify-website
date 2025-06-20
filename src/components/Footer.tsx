@@ -8,12 +8,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
-                <span className="text-white font-bold text-xs">P</span>
-              </div>
-              <span className="font-bold text-lg">Passportify</span>
-            </div>
+            <div className="flex items-center">
+              <img
+                src="/passportify-logo.png"
+                alt="Passportify"
+                className="h-8 w-auto"
+              />
+            </div>    
             <p className="text-sm text-muted-foreground">
               Digital Product Passport platform for EU regulation compliance. 
               AI-driven, blockchain-anchored, supplier-ready.
