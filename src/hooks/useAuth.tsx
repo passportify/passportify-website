@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -8,33 +7,34 @@ export const useAuth = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log('Auth state changed:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
-        
+
         if (session?.user) {
-          // Fetch user role with a small delay to avoid deadlock
           setTimeout(() => {
             fetchUserRole(session.user.id);
           }, 0);
         } else {
           setUserRole(null);
+          setIsAdmin(false);
+          setIsSuperAdmin(false);
         }
         setLoading(false);
       }
     );
 
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log('Initial session check:', session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
-      
+
       if (session?.user) {
         fetchUserRole(session.user.id);
       }
@@ -44,6 +44,15 @@ export const useAuth = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (userRole) {
+      const admin = userRole === 'admin' || userRole === 'super_admin';
+      const superAdmin = userRole === 'super_admin';
+      setIsAdmin(admin);
+      setIsSuperAdmin(superAdmin);
+    }
+  }, [userRole]);
+
   const fetchUserRole = async (userId: string) => {
     try {
       console.log('Fetching role for user:', userId);
@@ -52,19 +61,19 @@ export const useAuth = () => {
         .select('role')
         .eq('user_id', userId)
         .single();
-      
+
       if (error && error.code !== 'PGRST116') {
         console.error('Error fetching user role:', error);
-        setUserRole('user'); // Default to basic user role
+        setUserRole('user');
         return;
       }
-      
+
       const role = data?.role || 'user';
       console.log('User role set to:', role);
       setUserRole(role);
     } catch (error) {
       console.error('Error fetching user role:', error);
-      setUserRole('user'); // Default to basic user role
+      setUserRole('user');
     }
   };
 
@@ -80,7 +89,7 @@ export const useAuth = () => {
   const signUp = async (email: string, password: string) => {
     console.log('Attempting sign up for:', email);
     const redirectUrl = `${window.location.origin}/`;
-    
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -98,19 +107,18 @@ export const useAuth = () => {
       setUser(null);
       setSession(null);
       setUserRole(null);
+      setIsAdmin(false);
+      setIsSuperAdmin(false);
     }
     return { error };
   };
 
-  const isAdmin = userRole === 'admin' || userRole === 'super_admin';
-  const isSuperAdmin = userRole === 'super_admin';
-
-  console.log('Auth state:', { 
-    user: user?.email, 
-    userRole, 
-    isAdmin, 
-    isSuperAdmin, 
-    loading 
+  console.log('Auth state:', {
+    user: user?.email,
+    userRole,
+    isAdmin,
+    isSuperAdmin,
+    loading
   });
 
   return {
