@@ -65,7 +65,7 @@ const ContactsManager = () => {
         .update({
           status,
           notes,
-          updated_at: new Date().toISOString()
+          // Note: contact_submissions table doesn't have updated_at, so we don't include it
         })
         .eq('id', selectedContact.id);
 
@@ -78,11 +78,11 @@ const ContactsManager = () => {
       
       setSelectedContact(null);
       fetchContacts();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating contact:', error);
       toast({
         title: "Error",
-        description: "Failed to update contact",
+        description: error.message || "Failed to update contact",
         variant: "destructive",
       });
     }
