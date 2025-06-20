@@ -50,7 +50,7 @@ const Header = () => {
         {/* Right Side CTAs */}
         <div className="hidden lg:flex items-center space-x-4">
           <a
-            href="https://www.passportify.online/platform"
+            href="https://app.passportify.online"
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
             Login
@@ -87,7 +87,7 @@ const Header = () => {
             ))}
             <div className="pt-4 border-t space-y-2">
               <a
-                href="https://www.passportify.online/platform"
+                href="https://app.passportify.online"
                 className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
               >
                 Login
