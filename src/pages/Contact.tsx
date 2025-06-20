@@ -162,15 +162,11 @@ const Contact = () => {
               <CardContent className="space-y-6">
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-primary" />
-                  <span>hello@passportify.ai</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-primary" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>support@passportify.online</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-primary" />
-                  <span>San Francisco, CA</span>
+                  <span>Dubai, UAE</span>
                 </div>
               </CardContent>
             </Card>
@@ -192,6 +188,10 @@ const Contact = () => {
                   <li className="flex items-start space-x-2">
                     <span className="text-primary">•</span>
                     <span className="text-sm">Blockchain-secured audit trails</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-primary">•</span>
+                    <span className="text-sm">Multi tier supplier platform</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="text-primary">•</span>
