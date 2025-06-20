@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from '@/components/Layout';
@@ -19,6 +20,7 @@ import PageEditor from '@/pages/admin/PageEditor';
 import BlogManager from '@/pages/admin/BlogManager';
 import BlogEditor from '@/pages/admin/BlogEditor';
 import ContactsManager from '@/pages/admin/ContactsManager';
+import CaseStudiesManager from '@/pages/admin/CaseStudiesManager';
 import { Toaster } from '@/components/ui/toaster';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import CaseStudyEditor from '@/pages/admin/CaseStudyEditor';
