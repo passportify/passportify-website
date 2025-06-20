@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -7,8 +7,6 @@ export const useAuth = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -23,9 +21,8 @@ export const useAuth = () => {
           }, 0);
         } else {
           setUserRole(null);
-          setIsAdmin(false);
-          setIsSuperAdmin(false);
         }
+
         setLoading(false);
       }
     );
@@ -38,20 +35,12 @@ export const useAuth = () => {
       if (session?.user) {
         fetchUserRole(session.user.id);
       }
+
       setLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
-
-  useEffect(() => {
-    if (userRole) {
-      const admin = userRole === 'admin' || userRole === 'super_admin';
-      const superAdmin = userRole === 'super_admin';
-      setIsAdmin(admin);
-      setIsSuperAdmin(superAdmin);
-    }
-  }, [userRole]);
 
   const fetchUserRole = async (userId: string) => {
     try {
@@ -107,11 +96,17 @@ export const useAuth = () => {
       setUser(null);
       setSession(null);
       setUserRole(null);
-      setIsAdmin(false);
-      setIsSuperAdmin(false);
     }
     return { error };
   };
+
+  const isAdmin = useMemo(() => {
+    return userRole === 'admin' || userRole === 'super_admin';
+  }, [userRole]);
+
+  const isSuperAdmin = useMemo(() => {
+    return userRole === 'super_admin';
+  }, [userRole]);
 
   console.log('Auth state:', {
     user: user?.email,
