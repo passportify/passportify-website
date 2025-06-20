@@ -51,7 +51,7 @@ const Home = () => {
                 <Link to="/contact">Request Demo</Link>
               </Button>
               <Button variant="outline" size="lg" asChild className="px-8 py-6 text-lg">
-                <a href="https://app.passportify.ai/login">Login</a>
+                <a href="https://app.passportify.online">Login</a>
               </Button>
             </div>
           </div>
