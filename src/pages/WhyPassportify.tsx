@@ -12,16 +12,16 @@ const WhyPassportify = () => {
   }, []);
 
   const features = [
-    { name: 'AI-Based Document Preprocessing', passportify: true, circularise: false, spreadsheets: false },
-    { name: 'Verifiable Credentials (VC)', passportify: true, circularise: false, spreadsheets: false },
-    { name: 'DPP Score Calculation', passportify: true, circularise: false, spreadsheets: false },
-    { name: 'Audit Trail Viewer', passportify: true, circularise: false, spreadsheets: false },
-    { name: 'Public QR Passport Viewer', passportify: true, circularise: true, spreadsheets: false },
-    { name: 'Blockchain Anchoring', passportify: true, circularise: true, spreadsheets: false },
-    { name: 'Supplier Portal', passportify: true, circularise: true, spreadsheets: false },
-    { name: 'Multi-Language Support', passportify: true, circularise: false, spreadsheets: false },
-    { name: 'Real-time Compliance Monitoring', passportify: true, circularise: false, spreadsheets: false },
-    { name: 'Automated Regulatory Reporting', passportify: true, circularise: false, spreadsheets: false },
+    { name: 'AI-Based Document Preprocessing', passportify: true, others: false, spreadsheets: false },
+    { name: 'Verifiable Credentials (VC)', passportify: true, others: false, spreadsheets: false },
+    { name: 'DPP Score Calculation', passportify: true, others: false, spreadsheets: false },
+    { name: 'Audit Trail Viewer', passportify: true, others: false, spreadsheets: false },
+    { name: 'Public QR Passport Viewer', passportify: true, others: true, spreadsheets: false },
+    { name: 'Blockchain Anchoring', passportify: true, others: true, spreadsheets: false },
+    { name: 'Supplier Portal', passportify: true, others: true, spreadsheets: false },
+    { name: 'Multi-Language Support', passportify: true, others: false, spreadsheets: false },
+    { name: 'Real-time Compliance Monitoring', passportify: true, others: false, spreadsheets: false },
+    { name: 'Automated Regulatory Reporting', passportify: true, others: false, spreadsheets: false },
   ];
 
   const whyNowReasons = [
@@ -98,7 +98,7 @@ const WhyPassportify = () => {
                     <tr className="border-b bg-muted/50">
                       <th className="text-left p-4 font-semibold">Feature</th>
                       <th className="text-center p-4 font-semibold text-primary">Passportify</th>
-                      <th className="text-center p-4 font-semibold">Circularise</th>
+                      <th className="text-center p-4 font-semibold">others</th>
                       <th className="text-center p-4 font-semibold">Spreadsheets</th>
                     </tr>
                   </thead>
@@ -114,7 +114,7 @@ const WhyPassportify = () => {
                           )}
                         </td>
                         <td className="text-center p-4">
-                          {feature.circularise ? (
+                          {feature.others ? (
                             <span className="text-green-600 text-xl">✅</span>
                           ) : (
                             <span className="text-red-500 text-xl">❌</span>
