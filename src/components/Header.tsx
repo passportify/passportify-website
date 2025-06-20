@@ -24,11 +24,13 @@ const Header = () => {
       <div className="container max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">P</span>
-          </div>
-          <span className="font-bold text-xl text-foreground">Passportify</span>
+          <img
+            src="/passportify-logo.png"
+            alt="Passportify"
+            className="h-10 w-auto"
+          />
         </Link>
+
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-8">
@@ -48,7 +50,7 @@ const Header = () => {
         {/* Right Side CTAs */}
         <div className="hidden lg:flex items-center space-x-4">
           <a
-            href="https://app.passportify.ai/login"
+            href="https://www.passportify.online/platform"
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
           >
             Login
@@ -85,7 +87,7 @@ const Header = () => {
             ))}
             <div className="pt-4 border-t space-y-2">
               <a
-                href="https://app.passportify.ai/login"
+                href="https://www.passportify.online/platform"
                 className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
               >
                 Login
