@@ -8,11 +8,20 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading, isAdmin, userRole } = useAuth();
 
-  console.log('ProtectedRoute check:', { user: user?.email, loading, isAdmin, requireAdmin });
+  // Wait until the user role is fetched after sign-in
+  const roleLoading = user && userRole === null;
 
-  if (loading) {
+  console.log('ProtectedRoute check:', {
+    user: user?.email,
+    loading,
+    roleLoading,
+    isAdmin,
+    requireAdmin,
+  });
+
+  if (loading || roleLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -30,7 +39,17 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
 
   if (requireAdmin && !isAdmin) {
     console.log('Admin required but user is not admin:', { isAdmin });
-    return <Navigate to="/" replace />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Access Denied</h1>
+          <p className="text-muted-foreground mb-4">
+            You don't have permission to access this area.
+          </p>
+          <Navigate to="/" replace />
+        </div>
+      </div>
+    );
   }
 
   console.log('Access granted');
