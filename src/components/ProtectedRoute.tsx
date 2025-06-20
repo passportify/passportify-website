@@ -30,17 +30,9 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
   }
 
   if (requireAdmin && !isAdmin) {
-    console.log('Admin required but user is not admin:', { isAdmin });
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Access Denied</h1>
-          <p className="text-muted-foreground mb-4">You don't have permission to access this area.</p>
-          <Navigate to="/" replace />
-        </div>
-      </div>
-    );
-  }
+  console.log('Admin required but user is not admin:', { isAdmin });
+  return <Navigate to="/" replace />;
+}
 
   console.log('Access granted');
   return <>{children}</>;
